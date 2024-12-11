@@ -1,0 +1,75 @@
+/* Główne style tabeli */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+/* Kolory nagłówków w różnych stanach */
+.table th:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+/* Kolory dla przycisków */
+.button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .table th,
+    .table td {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .table {
+        font-size: 12px;
+    }
+
+    .button {
+        padding: 6px 12px;
+    }
+}
+
+/* Ukryte wiersze */
+.hiddenRow {
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.hiddenRow button {
+    background-color: darkgoldenrod;
+}
+
+.hiddenRow button:hover {
+    background-color: turquoise;
+}

@@ -1,0 +1,93 @@
+/* Główne style tabeli */
+.table {
+    background-color: white;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px black;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+/* Kolory nagłówków w różnych stanach */
+.table th:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .table th,
+    .table td {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .table {
+        font-size: 12px;
+    }
+
+    .button {
+        padding: 6px 12px;
+    }
+}
+
+.formRow button {
+    background-color: black;
+    color: white;
+    border: none;
+    
+    transition: background-color 0.3s ease;
+}
+
+.formRow button:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Ukryte wiersze */
+.hiddenRow {
+    background-color: grey;
+    color: white;
+    text-align: center;
+}
+
+.hiddenRow button {
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.hiddenRow button:hover {
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+.logout button{
+    background-color: darkblue;
+    color: white; 
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease; 
+}
+
+.logout button:hover{
+    background-color: white;
+    color: darkblue;
+}

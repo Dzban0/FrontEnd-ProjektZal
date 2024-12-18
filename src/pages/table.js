@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/table.module.css';
 import TableHeader from '../components/table/TableHeader';
@@ -6,6 +6,15 @@ import { headers, initialData } from '../components/table/data';
 
 export default function Table() {
     const router = useRouter();
+    
+    // Sprawdzanie, czy użytkownik jest zalogowany
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Jeśli brak tokena, przekieruj na stronę logowania
+            router.push('/login');
+        }
+    }, [router]);
 
     const [rows, setRows] = useState(initialData);
     const [hiddenRows, setHiddenRows] = useState([]);
@@ -17,7 +26,6 @@ export default function Table() {
         const newRows = [...rows];
         const ascending = sortOrder.column === columnIndex ? !sortOrder.ascending : true;
 
-
         newRows.sort((a, b) => {
             const cellA = a[columnIndex].toString().toLowerCase();
             const cellB = b[columnIndex].toString().toLowerCase();
@@ -26,11 +34,9 @@ export default function Table() {
             return 0;
         });
 
-
         setRows(newRows);
         setSortOrder({ column: columnIndex, ascending });
     };
-
 
     const toggleRow = (index) => {
         if (hiddenRows.includes(index)) {
@@ -40,18 +46,16 @@ export default function Table() {
         }
     };
 
-
     const handleLogout = () => {
-        router.push('/login');
+        localStorage.removeItem('token'); // Usunięcie tokena
+        router.push('/login'); // Przekierowanie na stronę logowania
     };
-
 
     const handleInputChange = (index, value) => {
         const updatedRow = [...newRow];
         updatedRow[index] = value;
         setNewRow(updatedRow);
     };
-
 
     const handleAddRow = () => {
         if (newRow.some((cell) => cell.trim() === '')) {
@@ -62,11 +66,9 @@ export default function Table() {
         setNewRow(['', '', '', '']); // Resetowanie formularza
     };
 
-
     if (!Array.isArray(rows)) {
         return <div>Brak danych do wyświetlenia.</div>;
     }
-
 
     return (
         <div style={{ padding: '2rem' }}>
@@ -108,7 +110,6 @@ export default function Table() {
                     )}
                 </tbody>
             </table>
-
 
             <h2>Dodaj nowy wiersz</h2>
             <div className={styles.formRow}>

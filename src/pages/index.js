@@ -12,8 +12,8 @@ export default function Home() {
                 <Link href="/login">
                     <button className={styles.button}>Zaloguj się</button>
                 </Link>
-                <Link href="/table">
-                    <button className={styles.button}>Zobacz Tabelę</button>
+                <Link href="/register">
+                    <button className={styles.button}>Zarejestruj się</button>
                 </Link>
             </div>
 

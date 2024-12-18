@@ -4,8 +4,8 @@ import styles from '../styles/button.module.css';
 export default function Home() {
     return (
         <div style={{padding: '2rem', textAlign: 'center'}}>
-            <h1>Witaj w aplikacji do tabeli!</h1>
-            <p>Aplikacja prezentuje funkcje sortowania i collapse dla danych w tabeli.</p>
+            <h1>Witaj w aplikacji tabeli!</h1>
+            <p>Aplikacja prezentuje funkcje sortowania, collapse dla danych w tabeli i dodawanie nowych danych do tabeli</p>
             <p></p>
 
             <div>

@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -37,6 +35,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 Instrukcja do uruchomienia:
-- New Terminal
-- cd next-table-app
+- cd next-table-app (kiedy nie jest w tym folderze)
 - npm run dev

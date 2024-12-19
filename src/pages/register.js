@@ -1,59 +1,88 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import styles from "../styles/button.module.css";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import styles from '../styles/button.module.css'; // Załaduj style
 import Link from 'next/link';
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    localStorage.setItem("user", JSON.stringify({ username, password }));
-    setMessage("Rejestracja zakończona sukcesem! Możesz się teraz zalogować.");
-  };
+    if (!username || !email || !password) {
+      setError('Wszystkie pola muszą być wypełnione');
+      return;
+    }
 
-  const handleGoHome = () => {
-    router.push("/"); // Powrót do strony głównej
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Po udanej rejestracji, przekieruj użytkownika na stronę logowania
+        router.push('/login');
+      } else {
+        setError(data.message || 'Wystąpił błąd');
+      }
+    } catch (error) {
+      setError('Błąd serwera');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className={styles.formContainer}>
+    <div>
       <h1>Rejestracja</h1>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Nazwa użytkownika"
-          className={styles.input}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Hasło"
-          className={styles.input}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" className={styles.button}>
-          Zarejestruj się
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Nazwa użytkownika:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Hasło:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" disabled={loading} className={styles.button}>
+          {loading ? 'Rejestracja...' : 'Zarejestruj się'}
         </button>
-        
-        {message && <p className={styles.success}>{message}</p>}
       </form>
+      <p>
+        Masz już konto? <Link href="/login">Zaloguj się</Link>
+      </p>
 
-      <Link href="/login">
+      <Link href="/">
         <button className={styles.button} style={{ margin: '0.5rem' }}>
-            Zaloguj się
+          Powrót do strony głównej
         </button>
       </Link>
-
-      <button onClick={handleGoHome} className={styles.button} style={{ marginTop: "1rem" }}>
-        Powrót do strony głównej
-      </button>
     </div>
   );
 };

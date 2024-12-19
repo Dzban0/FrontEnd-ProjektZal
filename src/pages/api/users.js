@@ -2,38 +2,36 @@ import fs from 'fs';
 import path from 'path';
 
 export default function handler(req, res) {
-  const filePath = path.join(process.cwd(), 'server', 'records.json');
+    const filePath = path.join(process.cwd(), 'server', 'records.json');
 
-  if (req.method === 'GET') {
-    // Odczytaj dane z pliku JSON
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        return res.status(500).json({ error: 'Nie udało się odczytać danych' });
-      }
-      res.status(200).json(JSON.parse(data));
-    });
-  } else if (req.method === 'POST') {
-    // Dodaj nowy użytkownik
-    const newUser = req.body;
-
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        return res.status(500).json({ error: 'Nie udało się odczytać danych' });
-      }
-
-      const users = JSON.parse(data);
-      newUser.id = users.length ? users[users.length - 1].id + 1 : 1; // Ustaw nowe ID
-      users.push(newUser);
-
-      fs.writeFile(filePath, JSON.stringify(users, null, 2), (err) => {
-        if (err) {
-          return res.status(500).json({ error: 'Nie udało się zapisać danych' });
+    let users = [];
+    try {
+        // Sprawdź, czy plik istnieje
+        if (fs.existsSync(filePath)) {
+            users = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        } else {
+            console.error('Plik records.json nie istnieje!');
+            fs.writeFileSync(filePath, JSON.stringify([])); // Utwórz plik, jeśli nie istnieje
         }
-        res.status(201).json(newUser);
-      });
-    });
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Metoda ${req.method} nie jest obsługiwana`);
-  }
+    } catch (error) {
+        console.error('Błąd podczas odczytu/zapisu pliku:', error);
+        return res.status(500).json({ success: false, message: 'Błąd serwera' });
+    }
+
+    if (req.method === 'POST') {
+        const { username, password } = req.body;
+
+        // Sprawdzanie użytkownika
+        const user = users.find(
+            (u) => u.username === username && u.password === password
+        );
+
+        if (user) {
+            return res.status(200).json({ success: true, message: 'Zalogowano pomyślnie' });
+        } else {
+            return res.status(401).json({ success: false, message: 'Nieprawidłowa nazwa użytkownika lub hasło' });
+        }
+    }
+
+    res.status(405).json({ success: false, message: 'Metoda nieobsługiwana' });
 }

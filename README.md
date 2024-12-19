@@ -1,6 +1,6 @@
 ## Getting Started
 Instrukcja do uruchomienia:
-- cd next-table-app (kJeśli nie jest w tym folderze)
+- cd next-table-app (Jeśli nie jest w tym folderze)
 - npm run dev
 
 First, run the development server:

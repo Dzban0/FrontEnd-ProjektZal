@@ -1,24 +1,25 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../styles/button.module.css';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isRegistered, setIsRegistered] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
-    if (!email || !password) {
+    if (!username || !password) {
       setError('Please fill in both fields.');
       return;
     }
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError('Please enter a valid email.');
+    if (!/\S+@\S+\.\S+/.test(username)) {
+      setError('Please enter a valid username.');
       return;
     }
 
@@ -28,7 +29,7 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (!response.ok) {
@@ -47,10 +48,10 @@ const Register = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="username"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className={styles.input}
           />
         </div>

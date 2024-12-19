@@ -15,6 +15,9 @@ export default function Home() {
                 <Link href="/register">
                     <button className={styles.button}>Zarejestruj się</button>
                 </Link>
+                <Link href="/table">
+                    <button className={styles.button}>Tabela</button>
+                </Link>
             </div>
 
             <p>Autor: Paweł Bierżyński</p>

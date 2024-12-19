@@ -1,26 +1,17 @@
-const fs = require('fs');
-const path = require('path');
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
-// Przykładowe dane rejestru
-const userRecords = [
-    { id: 1, name: 'Jacek Kowalski', username: 'JKowalski', password:'1234'},
-    { id: 2, name: 'Anna Nowak', username: 'ANowak',  password:'1234'}
-];
-
-// Wywołanie funkcji
-saveRecords(userRecords);
-
-// Funkcja do zapisywania rejestrów do pliku JSON
-function saveRecords(records) {
-    const filePath = path.join(__dirname, 'records.json');
-    fs.writeFile(filePath, JSON.stringify(records, null, 2), (err) => {
-        if (err) {
-            console.error('Błąd podczas zapisywania rejestrów:', err);
-        } else {
-            console.log('Rejestry zostały zapisane pomyślnie!');
-        }
-    });
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact component={Login} />
+                <Route path="/dashboard" component={Dashboard} />
+            </Switch>
+        </Router>
+    );
 }
 
-// Wywołanie funkcji
-saveRecords(userRecords);
+export default App;

@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 const Register = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -14,12 +13,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!username || !email || !password) {
+    // Walidacja danych
+    if (!username || !password) {
       setError('Wszystkie pola muszą być wypełnione');
       return;
     }
 
     setLoading(true);
+    setError(''); // Resetowanie błędów przed wysłaniem
 
     try {
       const res = await fetch('/api/register', {
@@ -27,7 +28,7 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
@@ -36,10 +37,12 @@ const Register = () => {
         // Po udanej rejestracji, przekieruj użytkownika na stronę logowania
         router.push('/login');
       } else {
-        setError(data.message || 'Wystąpił błąd');
+        // Wyświetlanie błędu z odpowiedzi serwera
+        setError(data.message || 'Wystąpił błąd podczas rejestracji');
       }
     } catch (error) {
-      setError('Błąd serwera');
+      // Obsługa błędów serwera (np. problem z połączeniem)
+      setError('Błąd serwera, spróbuj ponownie później');
     } finally {
       setLoading(false);
     }
@@ -51,23 +54,35 @@ const Register = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Nazwa użytkownika:</label>
           <input
             type="text"
-            id="username"
+            placeholder="Dodaj nazwę użytkownika"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
+            style={{
+              display: 'block',
+              width: '100%',
+              margin: '10px 0',
+              padding: '8px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+            }}
           />
         </div>
         <div>
-          <label htmlFor="password">Hasło:</label>
           <input
             type="password"
-            id="password"
+            placeholder="Podaj hasło"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            style={{
+              display: 'block',
+              width: '100%',
+              margin: '10px 0',
+              padding: '8px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+            }}
           />
         </div>
         <button type="submit" disabled={loading} className={styles.button}>

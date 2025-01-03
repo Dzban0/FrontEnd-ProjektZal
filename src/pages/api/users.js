@@ -6,12 +6,11 @@ export default function handler(req, res) {
 
     let users = [];
     try {
-        // Sprawdź, czy plik istnieje
         if (fs.existsSync(filePath)) {
             users = JSON.parse(fs.readFileSync(filePath, 'utf8'));
         } else {
             console.error('Plik records.json nie istnieje!');
-            fs.writeFileSync(filePath, JSON.stringify([])); // Utwórz plik, jeśli nie istnieje
+            fs.writeFileSync(filePath, JSON.stringify([])); 
         }
     } catch (error) {
         console.error('Błąd podczas odczytu/zapisu pliku:', error);

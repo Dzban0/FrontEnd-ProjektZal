@@ -9,7 +9,6 @@ export default function Login() {
     const [error, setError] = useState(''); // Przechowywanie błędów
     const router = useRouter(); // Obsługa nawigacji w Next.js
 
-    // Funkcja obsługująca logowanie
     const handleLogin = async (e) => {
         e.preventDefault(); // Zapobiegaj przeładowaniu strony
 

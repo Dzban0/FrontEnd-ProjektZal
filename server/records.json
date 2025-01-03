@@ -10,5 +10,11 @@
       "name": "Anna Nowak",
       "username": "ANowak",
       "password": "1234"
+    },
+    {
+      "id": 3,
+      "name": "Nowy użytkownik",
+      "username": "NewUser",
+      "password": "1234"
     }
   ]
